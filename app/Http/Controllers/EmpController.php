@@ -25,8 +25,9 @@ class EmpController extends Controller
             })
             ->orderBy('id', 'asc')
             ->paginate(10);
-            
-        return view('employee.index', compact('employees'));
+
+        $departments = Department::pluck('dept_name', 'dept_code')->toArray();
+        return view('employee.index', compact('employees','departments'));
     }
 
     

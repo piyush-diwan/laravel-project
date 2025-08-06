@@ -29,7 +29,7 @@ class DeptController extends Controller
     {
         $request->validate([
             'dept_code' => 'required|string|unique:departments,dept_code',
-            'dept_name' => 'required|string|max:50',
+            'dept_name' => 'required|string|max:50|unique:departments,dept_name',
             'description' => 'nullable|string|max:500',
         ]);
 
@@ -51,9 +51,16 @@ class DeptController extends Controller
     {
         $request->validate([
             'dept_code' => 'required|string|unique:departments,dept_code,'.$id,
-            'dept_name' => 'required|string|max:50',
+            'dept_name' => 'required|string|max:50|unique:departments,dept_name,'.$id,
             'description' => 'nullable|string|max:500',
-        ]);
+        ],
+        [
+            'dept_code.unique' => 'This department code has already been taken.',
+            'dept_name.unique' => 'This department name has already been taken. Please choose a different name.',
+        ]
+        
+    );
+        
         $department = Department::findorFail($id);
         $department->dept_code = $request->dept_code;
         $department->dept_name = $request->dept_name;

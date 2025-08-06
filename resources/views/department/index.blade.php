@@ -52,7 +52,7 @@
                                 <td class="employee-id">{{ $department->dept_code }}</td>
                                 <td class="employee-name">{{ $department->dept_name }}</td>
                                 <td class="employee-email">{{ $department->description }}</td>
-                                <td class="join-date">{{ $department->created_at->format('Y-m-d') }}</td>
+                                <td class="join-date" style="width: 150px;">{{ $department->created_at->format('Y-m-d') }}</td>
                                 <td class="action-buttons">
                                     <a href="{{ route('department.edit', $department->id) }}" class="btn-edit" title="Edit">
                                         <i class="fas fa-edit"></i>

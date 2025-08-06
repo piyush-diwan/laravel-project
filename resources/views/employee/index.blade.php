@@ -2,10 +2,10 @@
 <main class="main-content">
     <div class="employee-management-container">
         @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         @endif
         <div class="page-header">
             <h1 class="page-title">
@@ -28,9 +28,9 @@
                         value="{{ request('search') }}">
                     <select name="department" class="department-select">
                         <option value="">All Departments</option>
-                        @foreach(['IT', 'HR', 'Finance', 'Marketing'] as $dept)
-                            <option value="{{ $dept }}" {{ request('department') == $dept ? 'selected' : '' }}>{{ $dept }}
-                            </option>
+                        @foreach($departments as $dept)
+                        <option value="{{ $dept }}" {{ request('department') == $dept ? 'selected' : '' }}>{{ $dept }}
+                        </option>
                         @endforeach
                     </select>
                     <button type="submit" class="filter-btn">
@@ -58,65 +58,65 @@
                     </thead>
                     <tbody>
                         <?php
-$index = 0
-                    ?>
+                        $index = 0
+                        ?>
                         @forelse($employees as $employee)
-                                                <tr>
-                                                    <td class="employee-id">{{ $index + 1 }}</td>
-                                                    <td>
-                                                        <div class="employee-photo">
-                                                            @if($employee->photo)
-                                                                <img src="{{ asset('storage/' . $employee->photo) }}" alt="{{ $employee->name }}">
-                                                            @else
-                                                                <div class="photo-placeholder">
-                                                                    {{ substr($employee->name, 0, 1) }}
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </td>
-                                                    <td class="employee-name">{{ $employee->name }}</td>
-                                                    <td class="employee-email">{{ $employee->email }}</td>
-                                                    <td class="employee-department">
-                                                        <span class="department-tag department-{{ strtolower($employee->department) }}">
-                                                            {{ $employee->department }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="employee-position">{{ $employee->position }}</td>
-                                                    <td class="join-date">{{ $employee->join_date }}</td>
-                                                    <td>
-                                                        <span class="status-badge status-{{ $employee->status }}">
-                                                            {{ ucfirst($employee->status) }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="action-buttons">
-                                                        <a href="{{ route('employee.show', $employee->id) }}" class="btn-view" title="View">
-                                                            <i class="fas fa-eye"></i>
-                                                        </a>
-                                                        <a href="{{ route('employee.edit', $employee->id) }}" class="btn-edit" title="Edit">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        <form action="{{ route('employee.destroy', $employee->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn-delete" title="Delete"
-                                                                onclick="return confirm('Are you sure you want to delete the employee -> {{ $employee->name }} ?')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                            $index++;
-                                            ?>
-                        @empty
-                            <tr>
-                                <td colspan="9" class="no-data">
-                                    <div class="no-data-content">
-                                        <i class="fas fa-user-slash"></i>
-                                        <p>No employees found</p>
+                        <tr>
+                            <td class="employee-id">{{ $index + 1 }}</td>
+                            <td>
+                                <div class="employee-photo">
+                                    @if($employee->photo)
+                                    <img src="{{ asset('storage/' . $employee->photo) }}" alt="{{ $employee->name }}">
+                                    @else
+                                    <div class="photo-placeholder">
+                                        {{ substr($employee->name, 0, 1) }}
                                     </div>
-                                </td>
-                            </tr>
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="employee-name">{{ $employee->name }}</td>
+                            <td class="employee-email">{{ $employee->email }}</td>
+                            <td class="employee-department">
+                                <span class="department-tag department-{{ strtolower($employee->department) }}">
+                                    {{ $employee->department }}
+                                </span>
+                            </td>
+                            <td class="employee-position">{{ $employee->position }}</td>
+                            <td class="join-date">{{ $employee->join_date }}</td>
+                            <td>
+                                <span class="status-badge status-{{ $employee->status }}">
+                                    {{ ucfirst($employee->status) }}
+                                </span>
+                            </td>
+                            <td class="action-buttons">
+                                <a href="{{ route('employee.show', $employee->id) }}" class="btn-view" title="View">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('employee.edit', $employee->id) }}" class="btn-edit" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('employee.destroy', $employee->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete" title="Delete"
+                                        onclick="return confirm('Are you sure you want to delete the employee -> {{ $employee->name }} ?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                        $index++;
+                        ?>
+                        @empty
+                        <tr>
+                            <td colspan="9" class="no-data">
+                                <div class="no-data-content">
+                                    <i class="fas fa-user-slash"></i>
+                                    <p>No employees found</p>
+                                </div>
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
